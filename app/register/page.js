@@ -5,8 +5,15 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
+import { useSession, signIn } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function page() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
   const schema = yup.object().shape({
     firstName: yup.string().trim().required(),
     lastName: yup.string().trim().required(),
@@ -43,7 +50,31 @@ export default function page() {
       loader.classList.add("hidden");
     },
   });
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    } else if (status == "loading") {
+      setLoading(true);
+    } else {
+      setLoading(false);
+    }
+  }, [session, status]);
 
+  if (loading) {
+    return (
+      <div
+        className="absolute bg-white bg-opacity-100 z-10 h-full w-full flex items-center justify-center"
+        id="loader"
+      >
+        <div className="flex items-center">
+          <div className="relative">
+            <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+            <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
   const mySubmit = (data) => {
     mutation.mutate(data);
     const loader = document.getElementById("loader");
@@ -236,9 +267,13 @@ export default function page() {
 
                 <p className="mt-4 text-sm text-gray-500 sm:mt-0">
                   Already have an account?<span> </span>
-                  <a href="#" className="text-blue-700 underline">
+                  <Link
+                    href="#"
+                    className="text-blue-700 underline"
+                    onClick={() => signIn("keycloak")}
+                  >
                     Log in
-                  </a>
+                  </Link>
                   .
                 </p>
               </div>
