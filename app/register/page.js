@@ -14,15 +14,20 @@ export default function page() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [loading, setLoading] = useState(true);
+  const [dismissed, setDismissed] = useState(true);
+
+  const handleDismiss = () => {
+    setDismissed(true);
+  };
   const schema = yup.object().shape({
     firstName: yup.string().trim().required(),
     lastName: yup.string().trim().required(),
     email: yup.string().trim().email().required(),
-    phone: yup
+    phoneNumber: yup
       .string()
-      .matches(/^\+\d{1,3} \d{9}$$/, "Phone number is not valid")
+      .matches(/^\+\d{1,3} \d{9}$$/)
       .required(),
-    password: yup.string().required(),
+    password: yup.string().required().min(8),
     passwordConfirmation: yup
       .string()
       .oneOf([yup.ref("password")])
@@ -43,10 +48,19 @@ export default function page() {
     },
     onMutate: (variables) => {
       console.log("posting...");
+      const loader = document.getElementById("loader");
+      loader.classList.remove("hidden");
     },
     onSuccess: (data, variables, context) => {
       console.log("tourist added");
       const loader = document.getElementById("loader");
+      router.push("/");
+      loader.classList.add("hidden");
+    },
+    onError: (err, variables, context) => {
+      const loader = document.getElementById("loader");
+      setDismissed(false);
+      console.log(err.message);
       loader.classList.add("hidden");
     },
   });
@@ -77,8 +91,6 @@ export default function page() {
   }
   const mySubmit = (data) => {
     mutation.mutate(data);
-    const loader = document.getElementById("loader");
-    loader.classList.remove("hidden");
   };
   return (
     <section className="bg-white relative">
@@ -104,13 +116,13 @@ export default function page() {
 
         <main className="flex items-center justify-center px-8 py-8 sm:px-12 lg:col-span-7 lg:px-16 lg:py-12 xl:col-span-6">
           <div className="max-w-xl lg:max-w-3xl">
-            <a className="block text-blue-600" href="#">
+            <Link className="block text-blue-600" href="/">
               <img
                 className="h-12 sm:h-14"
                 src="/logo.png"
                 alt="Description of the image"
               />
-            </a>
+            </Link>
 
             <h1 className="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
               Welcome to Travel 🌎
@@ -120,6 +132,69 @@ export default function page() {
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
               nam dolorum aliquam, quibusdam aperiam voluptatum.
             </p>
+
+            <div>
+              {!dismissed && (
+                <div
+                  id="dismiss-alert"
+                  className="bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500 mt-5 transition-opacity"
+                  role="alert"
+                >
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <svg
+                        className="flex-shrink-0 size-4 mt-0.5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="m15 9-6 6" />
+                        <path d="m9 9 6 6" />
+                      </svg>
+                    </div>
+                    <div className="ms-2">
+                      <div className="text-sm font-medium">
+                        An Error Occurred, Please Try Again.
+                      </div>
+                    </div>
+                    <div className="ps-3 ms-auto">
+                      <div className="-mx-1.5 -my-1.5">
+                        <button
+                          type="button"
+                          className="inline-flex bg-red-50 rounded-lg p-1.5 text-red-500 hover:bg-red-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-500/50 dark:text-red-600"
+                          data-hs-remove-element="#dismiss-alert"
+                          onClick={handleDismiss}
+                        >
+                          <span className="sr-only">Dismiss</span>
+                          <svg
+                            className="flex-shrink-0 size-4"
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="24"
+                            height="24"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <path d="M18 6 6 18" />
+                            <path d="m6 6 12 12" />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             <form
               className="mt-8 grid grid-cols-6 gap-6"
@@ -204,11 +279,11 @@ export default function page() {
                   name="phone"
                   placeholder="+CountryCode PhoneNumber"
                   className={
-                    errors.phone
+                    errors.phoneNumber
                       ? "mt-1 w-full rounded-md border border-pink-500 bg-white text-sm text-pink-500 shadow-sm p-2 focus:outline-none"
                       : "mt-1 w-full rounded-md border border-gray-200 bg-white text-sm text-gray-700 shadow-sm p-2"
                   }
-                  {...register("phone")}
+                  {...register("phoneNumber")}
                 />
               </div>
 
