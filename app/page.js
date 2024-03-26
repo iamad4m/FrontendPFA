@@ -4,7 +4,11 @@ import { useSession, signIn, signOut } from "next-auth/react";
 
 async function keycloakSessionLogOut() {
   try {
-    await fetch(`/api/auth/logout`, { method: "GET" });
+    const timestamp = new Date().getTime();
+    await fetch(`/api/auth/logout?timestamp=${timestamp}`, {
+      method: "GET",
+      cache: "no-store",
+    });
   } catch (err) {
     console.error(err);
   }

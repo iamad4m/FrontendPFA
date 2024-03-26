@@ -65,9 +65,9 @@ export default function page() {
     },
   });
   useEffect(() => {
-    if (session) {
-      router.push("/");
-    } else if (status == "loading") {
+    if (status === "authenticated") {
+      router.push("/tourist");
+    } else if (status === "loading") {
       setLoading(true);
     } else {
       setLoading(false);
@@ -109,7 +109,7 @@ export default function page() {
         <aside className="relative block h-16 lg:order-last lg:col-span-5 lg:h-full xl:col-span-6">
           <img
             alt=""
-            src="https://images.pexels.com/photos/4652131/pexels-photo-4652131.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+            src="/signup.jpg"
             className="absolute inset-0 h-full w-full object-cover"
           />
         </aside>
