@@ -1,5 +1,7 @@
 "use client";
 import { signOut } from "next-auth/react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 async function keycloakSessionLogOut() {
   try {
@@ -14,24 +16,31 @@ async function keycloakSessionLogOut() {
 }
 
 export default function SideIconsTourist() {
+  const pathname = usePathname();
   return (
     <>
       <section className="flex flex-col space-y-10 items-center justify-center">
-        <button title="Profile">
-          <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white">
+        <Link title="Profile" href={"/tourist"}>
+          <div
+            className={
+              pathname === "/tourist"
+                ? "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer bg-indigo-600 hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white"
+                : "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer"
+            }
+          >
             <img className="h-6 w-6" src="/profile.svg" />
           </div>
-        </button>
-        <button title="Circuit">
+        </Link>
+        <Link title="Circuit" href={"#"}>
           <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white">
             <img className="h-6 w-6" src="/destination.svg" />
           </div>
-        </button>
-        <button title="Social Network">
+        </Link>
+        <Link title="Social Network" href={"#"}>
           <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white">
             <img className="h-6 w-6" src="/socialnetwork.svg" />
           </div>
-        </button>
+        </Link>
         <button
           title="Logout"
           onClick={() => {

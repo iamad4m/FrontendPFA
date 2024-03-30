@@ -3,9 +3,11 @@ import React from "react";
 import SideIconsTourist from "@/components/SideIconsTourist";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const DashboardTouristWrapper = ({ children }) => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   if (session) {
     return (
       <div className="h-screen w-full bg-white relative flex overflow-hidden">
@@ -24,11 +26,13 @@ const DashboardTouristWrapper = ({ children }) => {
                 <div className="text-md font-medium ">{session.user.name}</div>
                 <div className="text-sm font-regular">{session.user.email}</div>
               </div>
-              <img
-                className="h-10 w-10 rounded-full cursor-pointer bg-gray-200 border-2 border-indigo-600"
-                src={`https://api.dicebear.com/8.x/thumbs/svg?seed=${session.user.name}&radius=50&size=50&backgroundType=gradientLinear`}
-                alt="avatar"
-              />
+              <Link href={"/tourist"}>
+                <img
+                  className="h-10 w-10 rounded-full cursor-pointer bg-gray-200 border-2 border-indigo-600"
+                  src={`https://api.dicebear.com/8.x/thumbs/svg?seed=${session.user.name}&radius=50&size=50&backgroundType=gradientLinear`}
+                  alt="avatar"
+                />
+              </Link>
             </div>
           </header>
           <main className="max-w-full h-full flex relative overflow-y-scroll">
@@ -37,7 +41,9 @@ const DashboardTouristWrapper = ({ children }) => {
         </div>
       </div>
     );
-  }
+  } //else {
+  //   router.push("/");
+  // }
 };
 
 export default DashboardTouristWrapper;
