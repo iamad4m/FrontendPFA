@@ -28,7 +28,10 @@ const CircuitsTable = () => {
                     City
                 </th>
                 <th scope="col" class="p-6">
-                    Created At
+                    Depart Monument
+                </th>
+                <th scope="col" class="p-6">
+                    Depart Date
                 </th>
                 <th scope="col" class="p-6">
                     With Guide
@@ -45,7 +48,10 @@ const CircuitsTable = () => {
                     Fes
                 </td>
                 <td class="px-6 py-4">
-                    January 1, 2022
+                    chi blassa
+                </td>
+                <td class="px-6 py-4">
+                    chi date
                 </td>
 
                 <td class="px-6 py-4">
@@ -65,7 +71,10 @@ const CircuitsTable = () => {
                     Meknes
                 </td>
                 <td class="px-6 py-4">
-                    January 2, 2022
+                    chi blassa
+                </td>
+                <td class="px-6 py-4">
+                    chi date
                 </td>
 
                 <td class="px-6 py-4">
