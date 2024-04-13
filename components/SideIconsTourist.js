@@ -24,24 +24,26 @@ export default function SideIconsTourist() {
           <div
             className={
               pathname === "/tourist"
-                ? "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer bg-indigo-600 hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white"
-                : "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer"
+                ? "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer bg-indigo-600"
+                : "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600 hover:duration-300 hover:ease-linear focus:bg-white"
             }
           >
             <img className="h-6 w-6" src="/profile.svg" />
           </div>
         </Link>
-        <Link title="Circuit" href={"/circuit"}>
-          <div className={pathname === "/circuit"
-                ? "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer bg-indigo-600 hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white"
-                : "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer"
-                }>
-          
+        <Link title="Circuit" href={"/tourist/circuit"}>
+          <div
+            className={
+              pathname === "/tourist/circuit"
+                ? "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer bg-indigo-600"
+                : "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600 hover:duration-300 hover:ease-linear focus:bg-white"
+            }
+          >
             <img className="h-6 w-6" src="/destination.svg" />
           </div>
         </Link>
         <Link title="Social Network" href={"#"}>
-          <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white">
+          <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600 hover:duration-300 hover:ease-linear focus:bg-white">
             <img className="h-6 w-6" src="/socialnetwork.svg" />
           </div>
         </Link>
@@ -51,7 +53,7 @@ export default function SideIconsTourist() {
             keycloakSessionLogOut().then(() => signOut());
           }}
         >
-          <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600  hover:duration-300 hover:ease-linear focus:bg-white">
+          <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600 hover:duration-300 hover:ease-linear focus:bg-white">
             <img className="h-6 w-6" src="/logout.svg" />
           </div>
         </button>

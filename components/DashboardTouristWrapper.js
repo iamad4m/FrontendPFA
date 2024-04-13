@@ -4,9 +4,19 @@ import SideIconsTourist from "@/components/SideIconsTourist";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 const DashboardTouristWrapper = ({ children }) => {
   const { data: session, status } = useSession();
+  useEffect(() => {
+    if (
+      status != "loading" &&
+      session &&
+      session?.error === "RefreshAccessTokenError"
+    ) {
+      signOut();
+    }
+  }, [session, status]);
   const router = useRouter();
   if (session) {
     return (
