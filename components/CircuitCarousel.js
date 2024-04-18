@@ -29,7 +29,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 0 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1696952353145-e5ac4b32de9b"
+            src="/fes1.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -39,7 +39,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 1 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1561642769-1bca263542e0"
+            src="/marrakech1.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -49,7 +49,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 2 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1581175892881-b0124e689824"
+            src="/casablanca1.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -59,7 +59,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 3 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1628474754745-7c89f629cba8"
+            src="/meknes1.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -69,7 +69,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 4 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1598022124758-26d09adcb7b6"
+            src="/rabat1.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -79,7 +79,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 5 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1633264542743-c1acdb5eff0e"
+            src="/tangier1.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -89,7 +89,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 6 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1517573847294-84690dbc5df8"
+            src="/marrakech2.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -99,7 +99,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 7 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1568994660719-e69438848e42"
+            src="/casablanca2.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -109,7 +109,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 8 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1526928878027-1cf28c1405ba"
+            src="/tangier2.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -119,7 +119,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 9 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1550824684-f2b633526a7a"
+            src="/fes2.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>
@@ -129,7 +129,7 @@ export default function Carousel() {
           style={{ opacity: currentSlide === 10 ? 1 : 0 }}
         >
           <img
-            src="https://images.unsplash.com/photo-1597081315272-a8b558ca4e86"
+            src="/rabat2.jpg"
             className="absolute inset-0 h-full w-full object-cover rounded-t-lg"
           />
         </div>

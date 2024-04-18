@@ -44,13 +44,10 @@ const CircuitsTable = () => {
                 City
               </th>
               <th scope="col" class="p-6">
-                Depart Monument
+                Departure Monument
               </th>
               <th scope="col" class="p-6">
-                Depart Date
-              </th>
-              <th scope="col" class="p-6">
-                With Guide
+                Departure Date
               </th>
               <th scope="col" class="p-6">
                 Action
@@ -61,61 +58,53 @@ const CircuitsTable = () => {
             {/* <!-- Replace the sample data with your actual data --> */}
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">Fes</td>
-              <td class="px-6 py-4">chi blassa</td>
-              <td class="px-6 py-4">chi date</td>
-
-              <td class="px-6 py-4">False</td>
+              <td class="px-6 py-4">XYZ</td>
+              <td class="px-6 py-4">X/Y/Z date</td>
 
               <td class="px-6 py-4">
+                <a
+                  href="#"
+                  class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
+                >
+                  View
+                </a>
                 <a
                   href="#"
                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
                 >
                   Edit
                 </a>
-
-                <a
-                  href="#"
-                  class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                >
-                  Share
-                </a>
-
                 <a
                   href="#"
                   class="font-medium text-red-600 dark:text-red-500 hover:underline mr-3"
                 >
-                  Remove
+                  Delete
                 </a>
               </td>
             </tr>
             <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
               <td class="px-6 py-4">Meknes</td>
-              <td class="px-6 py-4">chi blassa</td>
-              <td class="px-6 py-4">chi date</td>
-
-              <td class="px-6 py-4">False</td>
+              <td class="px-6 py-4">XYZ</td>
+              <td class="px-6 py-4">X/Y/Z</td>
 
               <td class="px-6 py-4">
+                <a
+                  href="#"
+                  class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
+                >
+                  View
+                </a>
                 <a
                   href="#"
                   class="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
                 >
                   Edit
                 </a>
-
-                <a
-                  href="#"
-                  class="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                >
-                  Share
-                </a>
-
                 <a
                   href="#"
                   class="font-medium text-red-600 dark:text-red-500 hover:underline mr-3"
                 >
-                  Remove
+                  Delete
                 </a>
               </td>
             </tr>
@@ -134,33 +123,34 @@ const CircuitsTable = () => {
               href="#"
               class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
             >
+              First
+            </a>
+            <a
+              href="#"
+              class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
               Previous
             </a>
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 dark:bg-gray-600 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-200 dark:hover:bg-gray-500"
-            >
-              1
-            </a>
-            <a
-              href="#"
-              class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
-            >
-              2
-            </a>
-            <a
+
+            {/* <a
               href="#"
               aria-current="page"
               class="relative inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-100 dark:bg-blue-600 dark:text-white border border-blue-300 dark:border-blue-600 rounded-md"
             >
               3
-            </a>
+            </a> */}
 
             <a
               href="#"
               class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
             >
               Next
+            </a>
+            <a
+              href="#"
+              class="relative inline-flex items-center px-2 py-2 text-sm font-medium text-gray-500 bg-white dark:bg-gray-700 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600"
+            >
+              Last
             </a>
           </div>
         </nav>

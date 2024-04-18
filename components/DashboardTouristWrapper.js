@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { signOut } from "next-auth/react";
 
 const DashboardTouristWrapper = ({ children }) => {
   const { data: session, status } = useSession();
