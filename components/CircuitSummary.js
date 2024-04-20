@@ -24,7 +24,7 @@ export default function CircuitSummary({
           <div className="flex flex-col gap-3 border-b py-6 text-xs">
             <p className="flex justify-between">
               <span className="text-gray-400 me-4">City:</span>
-              <span>{chosenCity}</span>
+              <span>{chosenCity.toUpperCase()}</span>
             </p>
             <br />
             <p className="flex justify-between">

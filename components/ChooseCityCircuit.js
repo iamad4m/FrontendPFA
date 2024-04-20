@@ -22,11 +22,11 @@ export default function ChooseCityCircuit({
             <div className="w-full max-w-xs text-center">
               <article
                 className={
-                  focused === "fes"
+                  focused === "fez"
                     ? "cursor-pointer relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 max-w-sm mx-auto border-4 border-indigo-600"
                     : "cursor-pointer relative isolate flex flex-col justify-end overflow-hidden rounded-2xl px-8 pb-8 pt-40 max-w-sm mx-auto border-4 border-gray-300 hover:border-indigo-600 transition duration-300 ease-in-out"
                 }
-                onClick={() => setFocused("fes")}
+                onClick={() => setFocused("fez")}
               >
                 <img
                   src="/fes1.jpg"
