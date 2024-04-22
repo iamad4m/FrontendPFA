@@ -24,7 +24,12 @@ export default function ChooseInfoCircuit({
       monuments.length !== 0 &&
       new Date().getTime() < new Date(date).getTime()
     ) {
-      setMyDate(date);
+      const parts = date.split("/");
+      const yyyyMMdd = `${parts[2]}-${parts[0].padStart(
+        2,
+        "0"
+      )}-${parts[1].padStart(2, "0")}`;
+      setMyDate(yyyyMMdd);
       setMonument(monuments);
       setStep(step + 1);
     }

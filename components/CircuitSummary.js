@@ -1,4 +1,7 @@
+import { useMutation } from "@tanstack/react-query";
 import React from "react";
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function CircuitSummary({
   chosenCity,
@@ -7,9 +10,44 @@ export default function CircuitSummary({
   myDate,
   step,
   setStep,
+  email,
+  setIsLoading,
 }) {
-  const mutateInfo = () =>
-    console.log(chosenCity, chosenMonuments, myMonument, myDate);
+  const navigation = useRouter();
+  const mutation = useMutation({
+    mutationFn: (data) => {
+      return axios.post(`/api/saveCircuit`, data, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    },
+    onMutate: (variables) => {
+      console.log("posting...");
+      setIsLoading(true);
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("circuit created");
+      navigation.push("/tourist/circuit");
+      setIsLoading(false);
+    },
+    onError: (err, variables, context) => {
+      console.log(err.message);
+      setIsLoading(false);
+    },
+  });
+  const mutateInfo = () => {
+    const monumentsName = chosenMonuments.map((item) => item.value);
+    const body = {
+      cityName: chosenCity,
+      monuments: monumentsName,
+      depMonument: myMonument,
+      depDate: myDate,
+      touristEmail: email,
+    };
+    console.log(body);
+    mutation.mutate(body);
+  };
   return (
     <div className={step !== 4 ? "hidden" : ""}>
       <div

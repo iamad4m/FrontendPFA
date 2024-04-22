@@ -34,7 +34,8 @@ export default function SideIconsTourist() {
         <Link title="Circuit" href={"/tourist/circuit"}>
           <div
             className={
-              pathname === "/tourist/circuit"
+              pathname === "/tourist/circuit" ||
+              pathname === "/tourist/circuit/create"
                 ? "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer bg-indigo-600"
                 : "h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600 hover:duration-300 hover:ease-linear focus:bg-white"
             }

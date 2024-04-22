@@ -4,14 +4,46 @@ import ChooseCityCircuit from "@/components/ChooseCityCircuit";
 import ChooseInfoCircuit from "@/components/ChooseInfoCircuit";
 import ChooseMonumentsCircuit from "@/components/ChooseMonumentsCircuit";
 import CircuitSummary from "@/components/CircuitSummary";
+import { useQuery } from "@tanstack/react-query";
+import { data } from "autoprefixer";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { set } from "react-hook-form";
 export default function page() {
   const [chosenCity, setChosenCity] = useState("");
   const [chosenMonuments, setChosenMonuments] = useState([]); // array of object
   const [step, setStep] = useState(1);
   const [myDate, setMyDate] = useState("");
   const [myMonument, setMonument] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [allMonuments, setAllMonuments] = useState([]);
+  const { data: session } = useSession();
+
+  useEffect(() => {
+    const resp = fetch("/api/getmonuments")
+      .then((res) => res.json())
+      .then((data) => {
+        setIsLoading(false);
+        setAllMonuments(data);
+        console.log(data);
+      });
+  }, []);
+  if (isLoading) {
+    return (
+      <div
+        className="absolute bg-white bg-opacity-100 z-10 h-full w-full flex items-center justify-center"
+        id="loader"
+      >
+        <div className="flex items-center">
+          <div className="relative">
+            <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+            <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full overflow-x-hidden">
@@ -87,6 +119,8 @@ export default function page() {
           setChosenMonuments={setChosenMonuments}
           step={step}
           setStep={setStep}
+          allMonuments={allMonuments}
+          chosenCity={chosenCity}
         />
         <ChooseInfoCircuit
           setMyDate={setMyDate}
@@ -102,6 +136,8 @@ export default function page() {
           myDate={myDate}
           step={step}
           setStep={setStep}
+          email={session.user.email}
+          setIsLoading={setIsLoading}
         />
       </section>
     </div>
