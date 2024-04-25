@@ -18,19 +18,6 @@ export default function page() {
   });
   return (
     <div className="w-full overflow-x-hidden">
-      {isLoading ? (
-        <div
-          className="absolute bg-white bg-opacity-100 z-10 h-full w-full flex items-center justify-center"
-          id="loader"
-        >
-          <div className="flex items-center">
-            <div className="relative">
-              <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
-              <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
-            </div>
-          </div>
-        </div>
-      ) : null}
       <header className="top-0 bg-white shadow p-4 h-16 flex flex-col items-start justify-center">
         <ol
           className="flex items-center whitespace-nowrap"
@@ -72,7 +59,7 @@ export default function page() {
           <h1 class="text-2xl md:text-3xl pl-2 my-2 border-l-4  font-sans font-bold border-indigo-600  dark:text-gray-200 mx-5 mb-3">
             Your Circuits
           </h1>
-          <CircuitsTable data={data} />
+          <CircuitsTable data={data} refetch={refetch} isLoading={isLoading} />
         </div>
         <div className="w-full sm:w-1/3 md:w-1/3 mb-4 px-2">
           <CircuitCarouselCard />

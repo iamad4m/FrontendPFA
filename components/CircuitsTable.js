@@ -8,11 +8,12 @@ import {
   useReactTable,
   getFilteredRowModel,
 } from "@tanstack/react-table";
+import axios from "axios";
 import { DateTime } from "luxon";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const CircuitsTable = ({ data }) => {
+const CircuitsTable = ({ data, refetch, isLoading }) => {
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
@@ -55,6 +56,35 @@ const CircuitsTable = ({ data }) => {
   return (
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg ml-5">
+        {isLoading ? (
+          <div
+            className="absolute bg-white bg-opacity-100 z-10 h-full w-full flex items-center justify-center"
+            id="loader"
+          >
+            <div className="flex items-center">
+              <div className="relative">
+                <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+                <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
+              </div>
+            </div>
+          </div>
+        ) : null}
+
+        {
+          // this is the loader for the delete
+          <div
+            className="absolute bg-white bg-opacity-60 z-10 h-full w-full flex items-center justify-center hidden"
+            id="loaderDelete"
+          >
+            <div className="flex items-center">
+              <div className="relative">
+                <div className="h-24 w-24 rounded-full border-t-8 border-b-8 border-gray-200"></div>
+                <div className="absolute top-0 left-0 h-24 w-24 rounded-full border-t-8 border-b-8 border-blue-500 animate-spin"></div>
+              </div>
+            </div>
+          </div>
+        }
+
         <div className="pb-4 bg-white dark:bg-gray-900">
           <label for="table-search" className="sr-only">
             Search
@@ -152,27 +182,47 @@ const CircuitsTable = ({ data }) => {
                       } else {
                         return (
                           <td className="px-6 py-4" key={cell.id}>
-                            <button
+                            <Link
                               className="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                              onClick={() =>
-                                console.log(cell.getContext().getValue())
-                              }
+                              href={`/tourist/circuit/${cell
+                                .getContext()
+                                .getValue()}`}
                             >
                               View
-                            </button>
+                            </Link>
                             <button
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                              onClick={() =>
-                                console.log(cell.getContext().getValue())
-                              }
+                              onClick={() => {
+                                console.log(cell.getContext().getValue());
+                              }}
                             >
                               Edit
                             </button>
                             <button
                               className="font-medium text-red-600 dark:text-red-500 hover:underline mr-3"
-                              onClick={() =>
-                                console.log(cell.getContext().getValue())
-                              }
+                              onClick={() => {
+                                const decision = confirm(
+                                  "Do You Want To Delete This Circuit!"
+                                );
+
+                                if (decision) {
+                                  document
+                                    .getElementById("loaderDelete")
+                                    .classList.remove("hidden");
+                                  axios
+                                    .post(
+                                      `/api/deleteCircuit?id=${cell
+                                        .getContext()
+                                        .getValue()}`
+                                    )
+                                    .then((res) => {
+                                      refetch();
+                                      document
+                                        .getElementById("loaderDelete")
+                                        .classList.add("hidden");
+                                    });
+                                }
+                              }}
                             >
                               Delete
                             </button>
@@ -183,31 +233,6 @@ const CircuitsTable = ({ data }) => {
                   </tr>
                 ))
               : null}
-            {/* <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td className="px-6 py-4">Fes</td>
-              <td className="px-6 py-4">XYZ</td>
-              <td className="px-6 py-4">X/Y/Z date</td>
-              <td className="px-6 py-4">
-                <a
-                  href="#"
-                  className="font-medium text-green-600 dark:text-green-500 hover:underline mr-3"
-                >
-                  View
-                </a>
-                <a
-                  href="#"
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
-                >
-                  Edit
-                </a>
-                <a
-                  href="#"
-                  className="font-medium text-red-600 dark:text-red-500 hover:underline mr-3"
-                >
-                  Delete
-                </a>
-              </td>
-            </tr> */}
           </tbody>
         </table>
 
@@ -237,14 +262,6 @@ const CircuitsTable = ({ data }) => {
               >
                 Previous
               </button>
-
-              {/* <a
-              href="#"
-              aria-current="page"
-              className="relative inline-flex items-center px-4 py-2 text-sm font-medium text-blue-600 bg-blue-100 dark:bg-blue-600 dark:text-white border border-blue-300 dark:border-blue-600 rounded-md"
-            >
-              3
-            </a> */}
 
               <button
                 className={

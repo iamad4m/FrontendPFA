@@ -26,7 +26,6 @@ export default function page() {
       .then((data) => {
         setIsLoading(false);
         setAllMonuments(data);
-        console.log(data);
       });
   }, []);
   if (isLoading) {
