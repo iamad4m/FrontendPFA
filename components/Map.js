@@ -12,36 +12,35 @@ const containerStyle = {
   height: "480px",
 };
 
-const center = {
-  lat: 34.06525,
-  lng: -4.97336,
-};
-const destination = {
-  lat: 34.05156855629086,
-  lng: -4.993323516100645,
-};
-const wayPoints = [
-  {
-    location: {
-      lat: 34.06481995939324,
-      lng: -4.978783817720926,
-    },
-    stopover: true,
-  },
-  {
-    location: {
-      lat: 34.05880269350849,
-      lng: -4.986556495774336,
-    },
-    stopover: true,
-  },
-];
-export default function MyMap() {
+export default function MyMap({ info }) {
+  const center = {
+    lat: info.circuit.departureMonument.latitude,
+    lng: info.circuit.departureMonument.longitude,
+  };
+
+  const destination = {
+    lat: info.circuit.monuments[info.route[info.route.length - 1]].latitude,
+    lng: info.circuit.monuments[info.route[info.route.length - 1]].longitude,
+  };
+
+  const wayPoints = info.route
+    .filter((monument, index) => {
+      return index !== info.route.length - 1;
+    })
+    .map((monIndex) => {
+      return {
+        location: {
+          lat: info.circuit.monuments[monIndex].latitude,
+          lng: info.circuit.monuments[monIndex].longitude,
+        },
+        stopover: true,
+      };
+    });
+
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
     googleMapsApiKey: process.env.NEXT_PUBLIC_MAPS_API_KEY,
   });
-
   const [directionResponse, setDirectionResponse] = useState(null);
   const [map, setMap] = useState(null);
 
@@ -83,7 +82,7 @@ export default function MyMap() {
       <button
         onClick={() => map.panTo(center)}
         type="button"
-        class="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-3"
+        className="text-white bg-gradient-to-br from-purple-600 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mt-3"
       >
         Center Map
       </button>

@@ -45,7 +45,6 @@ export default function CircuitSummary({
       depDate: myDate,
       touristEmail: email,
     };
-    console.log(body);
     mutation.mutate(body);
   };
   return (
