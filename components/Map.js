@@ -62,7 +62,7 @@ export default function MyMap({ info }) {
       <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
-        zoom={15}
+        zoom={13}
         options={{
           zoomControl: false,
           streetViewControl: false,
