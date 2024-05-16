@@ -42,7 +42,7 @@ export default function SideIconsTourist() {
             <img className="h-6 w-6" src="/destination.svg" />
           </div>
         </Link>
-        <Link title="Social Network" href={"#"}>
+        <Link title="Social Network" href={"/tourist/socialmedia"}>
           <div className="h-10 w-10 flex items-center justify-center rounded-lg cursor-pointer hover:text-gray-800 hover:bg-indigo-600 hover:duration-300 hover:ease-linear focus:bg-white">
             <img className="h-6 w-6" src="/socialnetwork.svg" />
           </div>

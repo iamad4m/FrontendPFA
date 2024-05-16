@@ -10,10 +10,12 @@ import {
 } from "@tanstack/react-table";
 import axios from "axios";
 import { DateTime } from "luxon";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 
 const CircuitsTable = ({ data, refetch, isLoading }) => {
+  const { data: session } = useSession();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
     pageSize: 5,
@@ -193,10 +195,25 @@ const CircuitsTable = ({ data, refetch, isLoading }) => {
                             <button
                               className="font-medium text-blue-600 dark:text-blue-500 hover:underline mr-3"
                               onClick={() => {
+                                document
+                                  .getElementById("loaderDelete")
+                                  .classList.remove("hidden");
+                                axios
+                                  .post(
+                                    `/api/createPost?email=${
+                                      session.user.email
+                                    }&circuitId=${cell.getContext().getValue()}`
+                                  )
+                                  .then((res) => {
+                                    refetch();
+                                    document
+                                      .getElementById("loaderDelete")
+                                      .classList.add("hidden");
+                                  });
                                 console.log(cell.getContext().getValue());
                               }}
                             >
-                              Edit
+                              Share
                             </button>
                             <button
                               className="font-medium text-red-600 dark:text-red-500 hover:underline mr-3"
