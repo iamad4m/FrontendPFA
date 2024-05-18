@@ -3,7 +3,6 @@ import React from "react";
 import SideIconsTourist from "@/components/SideIconsTourist";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { signOut } from "next-auth/react";
 
@@ -18,7 +17,6 @@ const DashboardTouristWrapper = ({ children }) => {
       signOut();
     }
   }, [session, status]);
-  const router = useRouter();
   if (session) {
     return (
       <div className="h-screen w-full bg-white relative flex overflow-hidden">

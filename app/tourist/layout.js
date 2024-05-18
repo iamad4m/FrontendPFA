@@ -8,7 +8,7 @@ export default async function Layout({ children }) {
   if (session && session.roles?.includes("tourist")) {
     return <DashboardTouristWrapper>{children}</DashboardTouristWrapper>;
   } else if (session && session.roles?.includes("administrator")) {
-    redirect("/");
+    redirect("/admin");
   } else {
     redirect("/");
   }

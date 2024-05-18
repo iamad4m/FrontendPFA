@@ -5,15 +5,14 @@ import querystring from "querystring";
 export async function GET(request) {
   const urlObject = new URL(request.url);
   const page = Number(urlObject.searchParams.get("page").trim());
-  const url = `${process.env.DEMO_BACKEND_URL}/api/posts`;
+  const city = urlObject.searchParams.get("city")?.trim();
+  const possession = urlObject.searchParams.get("possession")?.trim();
+  const sort = urlObject.searchParams.get("sort")?.trim();
+  const url = `${process.env.DEMO_BACKEND_URL}/api/posts?page=${page}&city=${
+    city || ""
+  }&possession=${possession || ""}&sort=${sort || ""}`;
 
-  const body = {
-    page: page,
-  };
-
-  const formBody = querystring.stringify(body);
-
-  const response = await axios.get(url, formBody).then((r) => r.data);
+  const response = await axios.get(url).then((r) => r.data);
 
   const modifiedResponse = await Promise.all(
     response.map(async (element) => {
