@@ -2,8 +2,9 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import axios from "axios";
 
-const Blacklisted = ({ blacklist }) => {
+const Blacklisted = ({ blacklist, refetchTourists, refetchBlacklist }) => {
   const settings = {
     dots: true,
     infinite: false,
@@ -55,7 +56,12 @@ const Blacklisted = ({ blacklist }) => {
                   <div className="flex justify-center mt-4">
                     <button
                       className="border border-green-500 text-green-500 px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-green-500 hover:text-white"
-                      onClick={() => console.log(tourist.id)}
+                      onClick={() =>
+                        axios.post(`/api/enable?id=${tourist.id}`).then((r) => {
+                          refetchTourists();
+                          refetchBlacklist();
+                        })
+                      }
                     >
                       Enable
                     </button>

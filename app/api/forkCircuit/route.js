@@ -5,20 +5,20 @@ import querystring from "querystring";
 export async function POST(request) {
   const urlObject = new URL(request.url);
   const email = urlObject.searchParams.get("email").trim();
-  const postId = Number(urlObject.searchParams.get("postId"));
-  const url = `${process.env.DEMO_BACKEND_URL}/api/commentsTmp`;
-  const data = await request.json();
+  const circuitId = urlObject.searchParams.get("circuitId").trim();
+
+  const url = `${process.env.DEMO_BACKEND_URL}/api/posts/fork`;
 
   const body = {
-    touristEmail: email,
-    postId: postId,
-    content: data.comment,
+    email: email,
+    circuitId: circuitId,
   };
 
+  const formBody = querystring.stringify(body);
   const resp = await axios
-    .post(url, body, {
+    .post(url, formBody, {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
       },
     })
     .then((rs) => rs.data);

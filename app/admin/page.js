@@ -2,7 +2,7 @@
 
 import Comments from "@/components/Comments";
 import TouristsCards from "@/components/TouristsCards";
-import React from "react";
+import React, { useState } from "react";
 import Blacklisted from "@/components/BlacklistedCards";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -59,9 +59,20 @@ const page = () => {
         </div>
       ) : (
         <>
-          <TouristsCards tourists={tourists} />
-          <Comments commentsTmp={commentsTmp} />
-          <Blacklisted blacklist={blacklist} />
+          <TouristsCards
+            tourists={tourists}
+            refetchTourists={refetchTourists}
+            refetchBlacklist={refetchBlacklist}
+          />
+          <Comments
+            commentsTmp={commentsTmp}
+            refetchCommentsTmp={refetchCommentsTmp}
+          />
+          <Blacklisted
+            blacklist={blacklist}
+            refetchTourists={refetchTourists}
+            refetchBlacklist={refetchBlacklist}
+          />
         </>
       )}
     </>

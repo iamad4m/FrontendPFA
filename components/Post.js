@@ -2,11 +2,60 @@ import { DateTime } from "luxon";
 import Link from "next/link";
 import React, { useState } from "react";
 import MapPost from "./MapPost";
+import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useForm } from "react-hook-form";
+import * as yup from "yup";
+import { yupResolver } from "@hookform/resolvers/yup";
 
-export default function ({ post, setIsClosed }) {
+export default function ({
+  post,
+  setIsClosed,
+  email,
+  setHide,
+  setSuccessFork,
+  setLoad,
+}) {
   const [votes, setVotes] = useState(post.votes);
   const [isUpVoted, setIsUpVoted] = useState(false);
   const [isDownVoted, setIsDownVoted] = useState(false);
+  const schemaComment = yup.object().shape({
+    comment: yup.string().trim().required(),
+  });
+
+  const { register, handleSubmit } = useForm({
+    resolver: yupResolver(schemaComment),
+  });
+
+  const mutationComment = useMutation({
+    mutationFn: (data) => {
+      return axios.post(
+        `/api/createComment?email=${email}&postId=${post.id}`,
+        data,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+    },
+    onMutate: (variables) => {
+      console.log("posting...");
+    },
+    onSuccess: (data, variables, context) => {
+      console.log("comment posted");
+      document.getElementById("cmtArea" + post.id).value = "";
+      setHide(false);
+    },
+    onError: (err, variables, context) => {
+      console.log(err.message);
+    },
+  });
+
+  const mySubmitComment = (data) => {
+    mutationComment.mutate(data);
+  };
+
   return (
     <>
       <div className="leading-10 p-3 flex justify-center">
@@ -52,13 +101,19 @@ export default function ({ post, setIsClosed }) {
                 className="p-2 border border-indigo-700 rounded-full"
                 onClick={() => {
                   if (isUpVoted) {
-                    setVotes(votes - 1);
+                    axios
+                      .post(`/api/vote?postId=${post.id}&votes=${votes - 1}`)
+                      .then((r) => setVotes(votes - 1));
                   } else {
                     if (isDownVoted) {
-                      setVotes(votes + 2);
+                      axios
+                        .post(`/api/vote?postId=${post.id}&votes=${votes + 2}`)
+                        .then((r) => setVotes(votes + 2));
                       setIsDownVoted(!isDownVoted);
                     } else {
-                      setVotes(votes + 1);
+                      axios
+                        .post(`/api/vote?postId=${post.id}&votes=${votes + 1}`)
+                        .then((r) => setVotes(votes + 1));
                     }
                   }
                   setIsUpVoted(!isUpVoted);
@@ -94,13 +149,19 @@ export default function ({ post, setIsClosed }) {
                 className="p-2 border border-indigo-700 rounded-full"
                 onClick={() => {
                   if (isDownVoted) {
-                    setVotes(votes + 1);
+                    axios
+                      .post(`/api/vote?postId=${post.id}&votes=${votes + 1}`)
+                      .then((r) => setVotes(votes + 1));
                   } else {
                     if (isUpVoted) {
-                      setVotes(votes - 2);
+                      axios
+                        .post(`/api/vote?postId=${post.id}&votes=${votes - 1}`)
+                        .then((r) => setVotes(votes - 1));
                       setIsUpVoted(!isUpVoted);
                     } else {
-                      setVotes(votes - 1);
+                      axios
+                        .post(`/api/vote?postId=${post.id}&votes=${votes - 1}`)
+                        .then((r) => setVotes(votes - 1));
                     }
                   }
                   setIsDownVoted(!isDownVoted);
@@ -138,7 +199,19 @@ export default function ({ post, setIsClosed }) {
                 title="Leave a Comment"
               />
             </button>
-            <button>
+            <button
+              onClick={() => {
+                setLoad(true);
+                axios
+                  .post(
+                    `/api/forkCircuit?email=${email}&circuitId=${post.circuitId}`
+                  )
+                  .then((r) => {
+                    setLoad(false);
+                    setSuccessFork(false);
+                  });
+              }}
+            >
               <img
                 src="/fork-post.svg"
                 className="h-5 w-5"
@@ -154,7 +227,7 @@ export default function ({ post, setIsClosed }) {
         tabindex="-1"
         aria-labelledby="drawer-right-label"
       >
-        <div class="fixed right-1 top-2/3 transform -translate-y-1/2 w-8 h-8 bg-indigo-500 text-white flex items-center justify-center rounded-full">
+        <div className="fixed right-1 top-2/3 transform -translate-y-1/2 w-8 h-8 bg-indigo-500 text-white flex items-center justify-center rounded-full">
           <Link href="#comment-input">
             <img src="/down-comment.svg" />
           </Link>
@@ -206,42 +279,48 @@ export default function ({ post, setIsClosed }) {
                 className="bg-white mt-4 mr-10"
                 key={comment.id}
               >
-                <div class="border rounded-md p-3 ml-3 my-3">
-                  <div class="flex gap-3 items-center">
+                <div className="border rounded-md p-3 ml-3 my-3">
+                  <div className="flex gap-3 items-center">
                     <img
                       src={`https://api.dicebear.com/8.x/thumbs/svg?seed=${comment.tourist.email}&radius=50&backgroundType=gradientLinear`}
-                      class="object-cover w-8 h-8 rounded-full 
+                      className="object-cover w-8 h-8 rounded-full 
                             border-2 border-indigo-400  shadow-indigo-400
                             "
                     />
 
-                    <h3 class="font-bold">
+                    <h3 className="font-bold">
                       {comment.tourist.firstName} {comment.tourist.lastName}
                     </h3>
                   </div>
 
-                  <p class="text-gray-600 mt-2">{comment.content}</p>
+                  <p className="text-gray-600 mt-2">{comment.content}</p>
                 </div>
               </div>
             );
           })}
         </div>
-        <div
+        <form
+          onSubmit={handleSubmit(mySubmitComment)}
           id="comment-input"
           className="w-full max-w-2xl bg-white rounded-t-lg border p-2 mx-auto mt-20"
         >
-          <div class="px-3 mb-2 mt-2">
+          <div className="px-3 mb-2 mt-2">
             <textarea
               placeholder="Leave a comment..."
-              class="w-full bg-gray-100 rounded border border-gray-400 leading-normal resize-none h-20 py-2 px-3 font-medium focus:outline-none focus:bg-white"
+              className="w-full bg-gray-100 rounded border border-gray-400 leading-normal resize-none h-20 py-2 px-3 font-medium focus:outline-none focus:bg-white"
+              id={"cmtArea" + post.id}
+              {...register("comment")}
             ></textarea>
           </div>
-          <div class="flex justify-end px-4">
-            <button className="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500">
+          <div className="flex justify-end px-4">
+            <button
+              type="submit"
+              className="px-2.5 py-1.5 rounded-md text-white text-sm bg-indigo-500"
+            >
               Comment
             </button>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

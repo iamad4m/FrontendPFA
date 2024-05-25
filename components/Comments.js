@@ -1,7 +1,8 @@
+import axios from "axios";
 import { DateTime } from "luxon";
 import React from "react";
 
-const Comments = ({ commentsTmp }) => {
+const Comments = ({ commentsTmp, refetchCommentsTmp }) => {
   return (
     <>
       <h1 className="text-2xl md:text-3xl pl-2 border-l-4  font-sans font-bold border-indigo-600  dark:text-gray-200 mx-5 my-3">
@@ -43,15 +44,23 @@ const Comments = ({ commentsTmp }) => {
                   <td className="px-6 py-4">
                     <button
                       className="mr-2 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
-                      onClick={() => console.log(comment.id)}
+                      onClick={() =>
+                        axios
+                          .post(`/api/validateCmt?id=${comment.id}`)
+                          .then((r) => refetchCommentsTmp())
+                      }
                     >
                       Validate
                     </button>
                     <button
                       className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                      onClick={() => console.log(comment.id)}
+                      onClick={() =>
+                        axios
+                          .post(`/api/rejectCmt?id=${comment.id}`)
+                          .then((r) => refetchCommentsTmp())
+                      }
                     >
-                      Decline
+                      Reject
                     </button>
                   </td>
                 </tr>
