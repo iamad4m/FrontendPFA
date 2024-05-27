@@ -129,8 +129,8 @@ export default function page() {
             </h1>
 
             <p className="mt-4 leading-relaxed text-gray-500">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-              nam dolorum aliquam, quibusdam aperiam voluptatum.
+              Whether you're traveling for business or pleasure, we're here to
+              make your stay unforgettable.
             </p>
 
             <div>

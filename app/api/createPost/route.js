@@ -1,8 +1,10 @@
+import { getAccessToken } from "@/utils/SessionTokenAccessor";
 import axios from "axios";
 import { NextResponse } from "next/server";
 import querystring from "querystring";
 
 export async function POST(request) {
+  let accessToken = await getAccessToken();
   const urlObject = new URL(request.url);
   const email = urlObject.searchParams.get("email").trim();
   const circuitId = urlObject.searchParams.get("circuitId").trim();
@@ -21,6 +23,7 @@ export async function POST(request) {
     .post(url, formBody, {
       headers: {
         "Content-Type": "application/x-www-form-urlencoded",
+        Authorization: "Bearer " + accessToken,
       },
     })
     .then((rs) => rs.data);

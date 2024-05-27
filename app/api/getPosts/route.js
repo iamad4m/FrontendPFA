@@ -1,8 +1,10 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 import querystring from "querystring";
+import { getAccessToken } from "@/utils/SessionTokenAccessor";
 
 export async function GET(request) {
+  let accessToken = await getAccessToken();
   const urlObject = new URL(request.url);
   const page = Number(urlObject.searchParams.get("page").trim());
   const city = urlObject.searchParams.get("city")?.trim();
@@ -12,7 +14,13 @@ export async function GET(request) {
     city || ""
   }&possession=${possession || ""}&sort=${sort || ""}`;
 
-  const response = await axios.get(url).then((r) => r.data);
+  const response = await axios
+    .get(url, {
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    })
+    .then((r) => r.data);
 
   const modifiedResponse = await Promise.all(
     response.map(async (element) => {
