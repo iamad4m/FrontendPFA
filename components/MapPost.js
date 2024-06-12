@@ -61,7 +61,7 @@ export default function MapPost({ coordinates, departure, route }) {
     <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={13}
+      zoom={14}
       options={{
         zoomControl: false,
         streetViewControl: false,

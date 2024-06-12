@@ -20,7 +20,7 @@ const Blacklisted = ({ blacklist, refetchTourists, refetchBlacklist }) => {
       </h1>
       <div className="ml-20 mr-20">
         <Slider {...settings}>
-          {blacklist.map((tourist) => (
+          {blacklist?.map((tourist) => (
             <div className="w-full sm:w-1/4 md:w-1/4 mb-4 px-2">
               <div className="bg-white shadow-xl border border-gray-200 rounded-lg py-3">
                 <div className="photo-wrapper p-2">

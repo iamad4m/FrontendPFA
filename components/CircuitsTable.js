@@ -14,7 +14,7 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useState } from "react";
 
-const CircuitsTable = ({ data, refetch, isLoading }) => {
+const CircuitsTable = ({ data, refetch, isLoading, setHide }) => {
   const { data: session } = useSession();
   const [pagination, setPagination] = useState({
     pageIndex: 0,
@@ -205,12 +205,11 @@ const CircuitsTable = ({ data, refetch, isLoading }) => {
                                     }&circuitId=${cell.getContext().getValue()}`
                                   )
                                   .then((res) => {
-                                    refetch();
+                                    setHide(false);
                                     document
                                       .getElementById("loaderDelete")
                                       .classList.add("hidden");
                                   });
-                                console.log(cell.getContext().getValue());
                               }}
                             >
                               Share

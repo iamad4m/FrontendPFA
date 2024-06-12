@@ -9,7 +9,7 @@ export async function POST(request) {
   const urlObject = new URL(request.url);
   const email = urlObject.searchParams.get("email").trim();
   const postId = Number(urlObject.searchParams.get("postId"));
-  const url = `${process.env.DEMO_BACKEND_URL}/api/commentsTmp`;
+  const url = `${process.env.DEMO_BACKEND_URL}/api/commentsTmp/create`;
   const data = await request.json();
 
   const body = {

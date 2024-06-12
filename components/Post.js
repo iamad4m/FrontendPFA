@@ -15,6 +15,7 @@ export default function ({
   setHide,
   setSuccessFork,
   setLoad,
+  innerRef,
 }) {
   const [votes, setVotes] = useState(post.votes);
   const [isUpVoted, setIsUpVoted] = useState(false);
@@ -55,10 +56,9 @@ export default function ({
   const mySubmitComment = (data) => {
     mutationComment.mutate(data);
   };
-
   return (
     <>
-      <div className="leading-10 p-3 flex justify-center">
+      <div className="leading-10 p-3 flex justify-center" ref={innerRef}>
         <div className="w-3/4 bg-white border border-indigo-700 rounded-lg shadow">
           <div className="flex items-center justify-between py-4 px-3">
             <div className="flex items-center">
@@ -227,11 +227,6 @@ export default function ({
         tabindex="-1"
         aria-labelledby="drawer-right-label"
       >
-        <div className="fixed right-1 top-2/3 transform -translate-y-1/2 w-8 h-8 bg-indigo-500 text-white flex items-center justify-center rounded-full">
-          <Link href="#comment-input">
-            <img src="/down-comment.svg" />
-          </Link>
-        </div>
         <div className="bg-white">
           <div id="drawer-header" className="bg-gray-100/5 shadow-md p-4">
             <h5

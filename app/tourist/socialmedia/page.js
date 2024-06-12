@@ -7,6 +7,7 @@ import { DateTime } from "luxon";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 
 export default function page() {
   const [isClosed, setIsClosed] = useState(true);
@@ -17,8 +18,10 @@ export default function page() {
   const [hide, setHide] = useState(true);
   const [successFork, setSuccessFork] = useState(true);
   const [load, setLoad] = useState(false);
+  const { ref, inView } = useInView();
 
   const fetchPosts = async ({ pageParam }) => {
+    console.log(pageParam);
     return await axios
       .get(
         `/api/getPosts?page=${pageParam}&city=${city}&possession=${possession}&sort=${sort}`
@@ -26,14 +29,21 @@ export default function page() {
       .then((res) => res.data);
   };
 
-  const { data, refetch, isLoading } = useInfiniteQuery({
-    queryKey: ["getPosts"],
-    queryFn: fetchPosts,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => {
-      return lastPage;
-    },
-  });
+  const { data, refetch, isLoading, fetchNextPage, hasNextPage } =
+    useInfiniteQuery({
+      queryKey: [`getPosts`],
+      queryFn: fetchPosts,
+      initialPageParam: 0,
+      getNextPageParam: (lastPage, allPages) => {
+        const nextPage = lastPage.length ? allPages.length : undefined;
+        return nextPage;
+      },
+    });
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
 
   useEffect(() => {
     refetch();
@@ -113,18 +123,33 @@ export default function page() {
           <div className="mt-16">
             {/* post start */}
             {data?.pages.map((posts) =>
-              posts.map((post) => {
-                return (
-                  <Post
-                    post={post}
-                    setIsClosed={setIsClosed}
-                    email={session?.user.email}
-                    setHide={setHide}
-                    setSuccessFork={setSuccessFork}
-                    setLoad={setLoad}
-                    key={post.id}
-                  />
-                );
+              posts.map((post, index) => {
+                if (posts.length == index + 1) {
+                  return (
+                    <Post
+                      post={post}
+                      setIsClosed={setIsClosed}
+                      email={session?.user.email}
+                      setHide={setHide}
+                      setSuccessFork={setSuccessFork}
+                      setLoad={setLoad}
+                      innerRef={ref}
+                      key={post.id}
+                    />
+                  );
+                } else {
+                  return (
+                    <Post
+                      post={post}
+                      setIsClosed={setIsClosed}
+                      email={session?.user.email}
+                      setHide={setHide}
+                      setSuccessFork={setSuccessFork}
+                      setLoad={setLoad}
+                      key={post.id}
+                    />
+                  );
+                }
               })
             )}
             {/* post start */}
